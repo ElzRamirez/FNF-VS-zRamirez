@@ -2123,14 +2123,6 @@ class PlayState extends MusicBeatState
 		SongInfo.customJukeBoxTagColor = "";
 		SongInfo.disabled = false;
 
-		if (SONG.needsVoices) {
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, PlayState.SONG.props.vocalPrefix, PlayState.SONG.props.vocalSuffix));
-			opponentVocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, PlayState.SONG.props.vocalPrefix, PlayState.SONG.props.vocalSuffix));
-		}
-		else {
-			vocals = new FlxSound();
-			opponentVocals = new FlxSound();
-		}
         try
         {
             if (SONG.needsVoices)
