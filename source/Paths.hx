@@ -312,6 +312,21 @@ class Paths
 		return file;
 	}
 
+	inline static public function voices(song:String, postfix:String = null, ?prefix:String, ?suffix:String):Any
+	{
+		if (prefix == null) prefix = "";
+		if (suffix == null) suffix = "";
+		#if html5
+		return 'songs:assets/songs/${formatToSongPath(song)}/${prefix}Voices${suffix}.$SOUND_EXT';
+		#else
+		var songKey:String = '${formatToSongPath(song)}/${prefix}Voices${suffix}';
+		if(postfix != null) songKey += '-' + postfix;
+		var voices = returnSound('songs', songKey);
+		return voices;
+		#end
+	}
+
+	/*
 	inline static public function voices(song:String, ?prefix:String, ?suffix:String):Any
 	{
 		if (prefix == null) prefix = "";
@@ -324,6 +339,7 @@ class Paths
 		return voices;
 		#end
 	}
+	*/
 
 	inline static public function inst(song:String, ?prefix:String, ?suffix:String):Any
 	{
