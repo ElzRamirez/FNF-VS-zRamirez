@@ -202,6 +202,7 @@ class PlayState extends MusicBeatState
 	public var opponentStrums:FlxTypedGroup<StrumNote>;
 	public var playerStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
+	public var grpOpponentNoteSplashes:FlxTypedGroup<NoteSplash>;
 
 	public var opponentHoldCovers:HoldCover;
 	public var playerHoldCovers:HoldCover;
@@ -453,6 +454,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camCountdown, false);
 		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		grpOpponentNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		CustomFadeTransition.nextCamera = camOther;
@@ -1006,7 +1008,7 @@ class PlayState extends MusicBeatState
 
 		add(strumLineNotes);
 		add(grpNoteSplashes);
-		add(grpNoteSplashes);
+		add(grpOpponentNoteSplashes);
 
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
@@ -1016,6 +1018,7 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
+		grpOpponentNoteSplashes.add(splash);
 		splash.alpha = 0.0;
 
 		opponentStrums = new FlxTypedGroup<StrumNote>();
@@ -1127,6 +1130,7 @@ class PlayState extends MusicBeatState
 		opponentHoldCovers.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
+		grpOpponentNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -1872,6 +1876,7 @@ class PlayState extends MusicBeatState
 						note.alpha = (visualsOnlyMode ? 0 : note.multAlpha);
 						if(ClientPrefs.middleScroll && !note.mustPress) {
 							note.alpha *= (visualsOnlyMode ? 0 : 0.35);
+							grpOpponentNoteSplashes.alpha *= (visualsOnlyMode ? 0 : 0.35);
 						}
 					}
 				});
@@ -4571,6 +4576,8 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+		if (!note.isSustainNote)
+			spawnNoteSplashOnOppNote(note);
 
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 
@@ -4797,6 +4804,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public function spawnNoteSplashOnOppNote(note:Note) {
+		if(ClientPrefs.noteSplashes && note != null && !visualsOnlyMode) {
+			var strum:StrumNote = opponentStrums.members[note.noteData];
+			if(strum != null) {
+				spawnOppNoteSplash(strum.x, strum.y, note.noteData, note);
+			}
+		}
+	}
+
 	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 		var skin:String = 'noteSplashShit/' + ClientPrefs.splashSkin;
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
@@ -4820,6 +4836,31 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
 		grpNoteSplashes.add(splash);
+	}
+
+	public function spawnOppNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
+		var skin:String = 'noteSplashShit/' + ClientPrefs.splashSkin;
+		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
+
+		var hue:Float = 0;
+		var sat:Float = 0;
+		var brt:Float = 0;
+		if (data > -1 && data < ClientPrefs.arrowHSV.length)
+		{
+			hue = ClientPrefs.arrowHSV[data][0] / 360;
+			sat = ClientPrefs.arrowHSV[data][1] / 100;
+			brt = ClientPrefs.arrowHSV[data][2] / 100;
+			if(note != null) {
+				skin = note.noteSplashTexture;
+				hue = note.noteSplashHue;
+				sat = note.noteSplashSat;
+				brt = note.noteSplashBrt;
+			}
+		}
+
+		var splash:NoteSplash = grpOpponentNoteSplashes.recycle(NoteSplash);
+		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
+		grpOpponentNoteSplashes.add(splash);
 	}
 
 	override function destroy() {
