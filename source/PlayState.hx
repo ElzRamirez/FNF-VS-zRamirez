@@ -4837,7 +4837,6 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
-		splash.alpha = (visualsOnlyMode ? 0 : ClientPrefs.splashAlpha);
 		grpNoteSplashes.add(splash);
 	}
 
@@ -4863,7 +4862,7 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = grpOpponentNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
-		splash.alpha = (ClientPrefs.middleScroll ? (visualsOnlyMode ? 0 : 0.35) : ClientPref.splashAlpha);
+		splash.alpha = (ClientPrefs.middleScroll ? (visualsOnlyMode ? 0 : 0.35) : 1);
 		grpOpponentNoteSplashes.add(splash);
 	}
 
