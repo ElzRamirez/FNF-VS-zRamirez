@@ -2134,7 +2134,7 @@ class PlayState extends MusicBeatState
                 vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song, PlayState.SONG.props.vocalPrefix, PlayState.SONG.props.vocalSuffix));
                 
                 var oppVocals:openfl.media.Sound = cast Paths.voices(songData.song, (dad.vocalsFile == null || dad.vocalsFile.length < 1) ? 'Opponent' : dad.vocalsFile, PlayState.SONG.props.vocalPrefix, PlayState.SONG.props.vocalSuffix);
-                if(oppVocals != null && oppVocals.length > 0) opponentVocals.loadEmbedded(oppVocals);
+                if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
             }
         }
         catch(e:haxe.Exception)
