@@ -1019,7 +1019,6 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
 		grpOpponentNoteSplashes.add(splash);
-		splash.alpha = 0.0;
 
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
@@ -1876,7 +1875,6 @@ class PlayState extends MusicBeatState
 						note.alpha = (visualsOnlyMode ? 0 : note.multAlpha);
 						if(ClientPrefs.middleScroll && !note.mustPress) {
 							note.alpha *= (visualsOnlyMode ? 0 : 0.35);
-							grpOpponentNoteSplashes.forEach(splash -> splash.alpha = (visualsOnlyMode ? 0 : 0.35));
 						}
 					}
 				});
@@ -4862,7 +4860,7 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = grpOpponentNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
-		splash.alpha = (ClientPrefs.middleScroll ? (visualsOnlyMode ? 0 : 0.35) : 1);
+		splash.alpha = (ClientPrefs.middleScroll ? (visualsOnlyMode ? 0 : 0.35 * ClientPrefs.splashAlpha) : 1 * ClientPrefs.splashAlpha);
 		grpOpponentNoteSplashes.add(splash);
 	}
 
