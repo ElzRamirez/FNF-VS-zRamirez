@@ -1876,7 +1876,7 @@ class PlayState extends MusicBeatState
 						note.alpha = (visualsOnlyMode ? 0 : note.multAlpha);
 						if(ClientPrefs.middleScroll && !note.mustPress) {
 							note.alpha *= (visualsOnlyMode ? 0 : 0.35);
-							grpOpponentNoteSplashes.alpha *= (visualsOnlyMode ? 0 : 0.35);
+							grpOpponentNoteSplashes.forEach(splash -> splash.alpha = (visualsOnlyMode ? 0 : 0.35));
 						}
 					}
 				});
