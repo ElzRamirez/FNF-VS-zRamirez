@@ -2123,6 +2123,9 @@ class PlayState extends MusicBeatState
 		SongInfo.customJukeBoxTagColor = "";
 		SongInfo.disabled = false;
 
+		vocals = new FlxSound();
+		opponentVocals = new FlxSound();
+
         try
         {
             if (SONG.needsVoices)
