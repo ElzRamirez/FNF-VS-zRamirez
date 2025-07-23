@@ -2137,7 +2137,7 @@ class PlayState extends MusicBeatState
                 if(oppVocals != null && oppVocals.length > 0) opponentVocals.loadEmbedded(oppVocals);
             }
         }
-        catch(e:haxe.Expcetion)
+        catch(e:haxe.Exception)
               trace(e.message + e.stack);
 
 		vocals.pitch = playbackRate;
