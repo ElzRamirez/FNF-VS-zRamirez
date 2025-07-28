@@ -1476,7 +1476,7 @@ class ChartingState extends MusicBeatState
 		voicesVolume.name = 'voices_volume';
 		blockPressWhileTypingOnStepper.push(voicesVolume);
 
-		opponentVoicesVolume = new FlxUINumericStepper(vocalsVolume.x + 100, instVolume.y, 0.1, 1, 0, 1, 1);
+		opponentVoicesVolume = new FlxUINumericStepper(voicesVolume.x + 100, instVolume.y, 0.1, 1, 0, 1, 1);
 		opponentVoicesVolume.value = opponentVocals.volume;
 		opponentVoicesVolume.name = 'opponent_voices_volume';
 		blockPressWhileTypingOnStepper.push(voicesVolume);
@@ -1518,16 +1518,15 @@ class ChartingState extends MusicBeatState
 	function getFromCharacter(name:String):Character.CharacterFile
 	{
 		var character:String = null;
-
 		#if MODS_ALLOWED
 		character = Paths.modsJson('characters/$name');
 		if (!FileSystem.exists(character)) character = Paths.json('characters/$name');
 		#else
 		character = Paths.json('characters/$name');
 		#end
-		if (!Assets.getText(character)) return null;
+		if (!Assets.exists(character)) return null;
 		try
-			return Json.parse(#if MODS_ALLOWED File.getContent(character) #else Assets.getText(character) #end)
+			return cast Json.parse(#if MODS_ALLOWED File.getContent(character) #else Assets.getText(character) #end)
 		catch(e:haxe.Exception)
 			trace(e.message, e.stack);
 		return null;
@@ -1538,7 +1537,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.sound.music != null) FlxG.sound.music.stop();
 
 		vocals = new FlxSound();
-		oppVocals = new FlxSound();
+		opponentVocals = new FlxSound();
 		
 		final P1:Character.CharacterFile = getFromCharacter(_song.player1);
 		final P2:Character.CharacterFile = getFromCharacter(_song.player2);
@@ -1548,7 +1547,7 @@ class ChartingState extends MusicBeatState
 		else if (normalVocals != null && normalVocals.length > 0) vocals.loadEmbedded(normalVocals);
 		if (vocals != null) FlxG.sound.list.add(vocals);
 		
-		final oppVocals:openfl.media.Sound = cast Paths.voices(songData.song, (P2.vocals_file == null || P2.vocals_file.length < 1) ? 'Opponent' : P2.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
+		final oppVocals:openfl.media.Sound = cast Paths.voices(currentSongName, (P2.vocals_file == null || P2.vocals_file.length < 1) ? 'Opponent' : P2.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
 		if(oppVocals != null) 
 		{
 			opponentVocals.loadEmbedded(oppVocals);
