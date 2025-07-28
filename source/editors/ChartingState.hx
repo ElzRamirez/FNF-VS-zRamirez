@@ -1551,7 +1551,7 @@ class ChartingState extends MusicBeatState
 		if(oppVocals != null) 
 		{
 			opponentVocals.loadEmbedded(oppVocals);
-			FlxG.sound.list.add(oppVocals);
+			FlxG.sound.list.add(opponentVocals);
 		}
 
 		generateSong();
