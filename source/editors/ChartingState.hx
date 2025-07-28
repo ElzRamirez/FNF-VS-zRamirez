@@ -1350,6 +1350,7 @@ class ChartingState extends MusicBeatState
 		waveformUseInstrumental.callback = function()
 		{
 			waveformUseVoices.checked = false;
+			waveformUseOpponentVoices.checked = false;
 			FlxG.save.data.chart_waveformOpponentVoices = false;
 			FlxG.save.data.chart_waveformVoices = false;
 			FlxG.save.data.chart_waveformInst = waveformUseInstrumental.checked;
@@ -1361,17 +1362,19 @@ class ChartingState extends MusicBeatState
 		waveformUseVoices.callback = function()
 		{
 			waveformUseInstrumental.checked = false;
+			waveformUseOpponentVoices.checked = false;
 			FlxG.save.data.chart_waveformInst = false;
 			FlxG.save.data.chart_waveformOpponentVoices = false;
 			FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 			updateWaveform();
 		};
 
-		waveformUseOpponentVoices = new FlxUICheckBox(waveformUseVoices.x + 120, waveformUseInstrumental.y, null, null, "Waveform for Voices", 100);
+		waveformUseOpponentVoices = new FlxUICheckBox(waveformUseVoices.x + 120, waveformUseInstrumental.y, null, null, "Waveform for Opponent Voices", 100);
 		waveformUseOpponentVoices.checked = FlxG.save.data.chart_waveformOpponentVoices;
 		waveformUseOpponentVoices.callback = function()
 		{
-			waveformUseOpponentVoices.checked = false;
+			waveformUseInstrumental.checked = false;
+			waveformUseVoices.checked = false;
 			FlxG.save.data.chart_waveformInst = false;
 			FlxG.save.data.chart_waveformVoices = false;
 			FlxG.save.data.chart_waveformOpponentVoices = waveformUseOpponentVoices.checked;
@@ -1519,10 +1522,10 @@ class ChartingState extends MusicBeatState
 	{
 		var character:String = null;
 		#if MODS_ALLOWED
-		character = Paths.modsJson('characters/$name');
-		if (!FileSystem.exists(character)) character = Paths.json('characters/$name');
+		character = Paths.modFolders('characters/$name.json');
+		if (!FileSystem.exists(character)) character = Paths.getPreloadPath('characters/$name.json');
 		#else
-		character = Paths.json('characters/$name');
+		character = Paths.getPreloadPath('characters/$name.json');
 		#end
 		if (!Assets.exists(character)) return null;
 		try
@@ -1541,13 +1544,13 @@ class ChartingState extends MusicBeatState
 		
 		final P1:Character.CharacterFile = getFromCharacter(_song.player1);
 		final P2:Character.CharacterFile = getFromCharacter(_song.player2);
-		final playerVocals:openfl.media.Sound = cast Paths.voices(currentSongName, (P1.vocals_file == null || P1.vocals_file.length < 1) ? 'Player' : P1.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
+		final playerVocals:openfl.media.Sound = Paths.voices(currentSongName, (P1.vocals_file == null || P1.vocals_file.length < 1) ? 'Player' : P1.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
 		final normalVocals:openfl.media.Sound = Paths.voices(currentSongName, null, _song.props.vocalPrefix, _song.props.vocalSuffix);
 		if (playerVocals != null && playerVocals.length > 0) vocals.loadEmbedded(playerVocals);
 		else if (normalVocals != null && normalVocals.length > 0) vocals.loadEmbedded(normalVocals);
 		if (vocals != null) FlxG.sound.list.add(vocals);
 		
-		final oppVocals:openfl.media.Sound = cast Paths.voices(currentSongName, (P2.vocals_file == null || P2.vocals_file.length < 1) ? 'Opponent' : P2.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
+		final oppVocals:openfl.media.Sound = Paths.voices(currentSongName, (P2.vocals_file == null || P2.vocals_file.length < 1) ? 'Opponent' : P2.vocals_file, _song.props.vocalPrefix, _song.props.vocalSuffix);
 		if(oppVocals != null) 
 		{
 			opponentVocals.loadEmbedded(oppVocals);
@@ -2398,7 +2401,7 @@ class ChartingState extends MusicBeatState
 		}
 		waveformPrinted = false;
 
-		if(!FlxG.save.data.chart_waveformInst && !FlxG.save.data.chart_waveformVoices || !FlxG.save.data.chart_waveformOpponentVoices) {
+		if(!FlxG.save.data.chart_waveformInst && !FlxG.save.data.chart_waveformVoices && !FlxG.save.data.chart_waveformOpponentVoices) {
 			//trace('Epic fail on the waveform lol');
 			return;
 		}
