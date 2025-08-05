@@ -128,6 +128,9 @@ function tweenArrowsPosition(isMiddlescroll, originalPos)
             if getPropertyFromClass("ClientPrefs", "holdSplashes") == true then
                 setProperty("opponentHoldCovers.alpha", targetAlpha)
             end
+            if getPropertyFromClass("ClientPrefs", "noteSplashes") == true then
+                setProperty("oppSplashesAlpha", targetAlpha * getPropertyFromClass("ClientPrefs", "splashAlpha"))
+            end
         end
     else
         if not originalPos then
@@ -156,6 +159,9 @@ function tweenArrowsPosition(isMiddlescroll, originalPos)
             end
             if getPropertyFromClass("ClientPrefs", "holdSplashes") == true then
                 setProperty("opponentHoldCovers.alpha", targetAlpha)
+            end
+            if getPropertyFromClass("ClientPrefs", "noteSplashes") == true then
+                setProperty("oppSplashesAlpha", targetAlpha * getPropertyFromClass("ClientPrefs", "splashAlpha"))
             end
         end
     end

@@ -203,6 +203,7 @@ class PlayState extends MusicBeatState
 	public var playerStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 	public var grpOpponentNoteSplashes:FlxTypedGroup<NoteSplash>;
+	public var oppSplashesAlpha:Float = -1;
 
 	public var opponentHoldCovers:HoldCover;
 	public var playerHoldCovers:HoldCover;
@@ -4860,7 +4861,8 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = grpOpponentNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
-		splash.alpha = (ClientPrefs.middleScroll ? (visualsOnlyMode ? 0 : 0.35 * ClientPrefs.splashAlpha) : 1 * ClientPrefs.splashAlpha);
+		splash.alpha = (oppSplashesAlpha != -1 ? oppSplashesAlpha : (ClientPrefs.middleScroll ? 0.35 : 1) * ClientPrefs.splashAlpha);
+		trace(splash.alpha);
 		grpOpponentNoteSplashes.add(splash);
 	}
 
