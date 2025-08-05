@@ -105,9 +105,14 @@ class NoteSplash extends FlxSprite
 			case 'noteSplashShit/Sparkles':
 				data.fps = [22, 26];
 				for (anim in ['note0-1', 'note1-1', 'note2-1', 'note3-1'])
-					data.setOffset(anim, [-48, -48]);
+					data.setOffset(anim, [-31, -58]);
 		}
 		offsetHandler.setSkin(skin, data);
+		/* No pude hacer que se sumarán los offsets a las splashes para las diferentes noteskins pero acá dejo cada offset que se tiene que sumar para cada noteskin
+		Vanilla, Camellia, StepMania y DoritosPizzerola = 3
+		Bar = 2 (si queda muy a la derecha nomás ponle 1)
+		Diamond = 6
+		*/
 	}
 
 	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, texture:String = null, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0) {

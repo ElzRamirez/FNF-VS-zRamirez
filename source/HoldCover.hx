@@ -204,7 +204,7 @@ class HoldCover extends FlxTypedSpriteGroup<CoverSprite>
       if (game == null) return 110;
       else
       {
-        if (info == "x") return game.strumLineNotes.members[isPlayer ? note + 4 : note].x + (ClientPrefs.noteSkin == 'Vanilla' ? vanillaOffset : 0);
+        if (info == "x") return game.strumLineNotes.members[isPlayer ? note + 4 : note].x + (ClientPrefs.noteSkin == 'Vanilla' ? vanillaOffset : (ClientPrefs.noteSkin == 'Diamond' ? vanillaOffset + 3 : (ClientPrefs.noteSkin == 'Camellia' ? vanillaOffset : (ClientPrefs.noteSkin == 'StepMania' ? vanillaOffset : (ClientPrefs.noteSkin == 'DoritosPizzerola' ? vanillaOffset : 0)))));
         else if (info == "y") return game.strumLineNotes.members[isPlayer ? note + 4 : note].y;
         return 0;
       }
