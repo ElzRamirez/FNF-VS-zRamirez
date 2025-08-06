@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
@@ -115,6 +116,8 @@ class NoteSplash extends FlxSprite
 		*/
 	}
 
+	public var extraOffsetPoint:FlxPoint = FlxPoint.get(0, 0);
+
 	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, texture:String = null, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0) {
 		setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
 		alpha = ClientPrefs.splashAlpha;
@@ -140,6 +143,12 @@ class NoteSplash extends FlxSprite
 		{
 			offset.x += animOffsets[0];
 			offset.y += animOffsets[1];
+		}
+
+		if (extraOffsetPoint != null)
+		{
+			offset.x += extraOffsetPoint.x;
+			offset.y += extraOffsetPoint.y;
 		}
 
 		final fpsArray:Array<Int> = offsetHandler.getSkinFPS(texture);
