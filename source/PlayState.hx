@@ -4837,11 +4837,18 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		switch (ClientPrefs.splashSkin) //Aqui pones los offsets EXTRA
 		{
-			/**
-			 * Ejemplo
-			 * case 'pingus':
-			 * 	splash.extraOffsetPoint.set(x, y);
-			 */
+			case 'Vanilla':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'Bar':
+				splash.extraOffsetPoint.set(2, 0);
+			case 'Diamond':
+				splash.extraOffsetPoint.set(6, 0);
+			case 'Camellia':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'StepMania':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'DoritosPizzerola':
+				splash.extraOffsetPoint.set(3, 0);
 		}
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
 		grpNoteSplashes.add(splash);
@@ -4870,11 +4877,18 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = grpOpponentNoteSplashes.recycle(NoteSplash);
 		switch (ClientPrefs.splashSkin) //Aqui pones los offsets EXTRA
 		{
-			/**
-			 * Ejemplo
-			 * case 'pingus':
-			 * 	splash.extraOffsetPoint.set(x, y);
-			 */
+			case 'Vanilla':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'Bar':
+				splash.extraOffsetPoint.set(2, 0);
+			case 'Diamond':
+				splash.extraOffsetPoint.set(6, 0);
+			case 'Camellia':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'StepMania':
+				splash.extraOffsetPoint.set(3, 0);
+			case 'DoritosPizzerola':
+				splash.extraOffsetPoint.set(3, 0);
 		}
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
 		splash.alpha = (oppSplashesAlpha != -1 ? oppSplashesAlpha : (ClientPrefs.middleScroll ? 0.35 : 1) * ClientPrefs.splashAlpha);
